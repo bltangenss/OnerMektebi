@@ -1,6 +1,7 @@
 import type { DirectionTheme } from "@/types/content";
 import { DombraShape, STRING_X, STRING_Y } from "./Dombra";
 import { HORN_PATH } from "./horn-path";
+import { HornPair } from "./HornPair";
 
 type Props = {
   theme: DirectionTheme;
@@ -28,15 +29,15 @@ export function DirectionArt({ theme, ink, accent, ground, className }: Props) {
       )}
       {theme === "voices" && (
         <g>
-          <path d={HORN_PATH} fill={ink} transform="translate(64 66) scale(1.9)" />
-          <path d={HORN_PATH} fill={accent} transform="translate(336 66) scale(-1.9 1.9)" />
+          <path d={HORN_PATH} fill={ink} transform="translate(29 80) scale(1.7)" />
+          <path d={HORN_PATH} fill={accent} transform="translate(371 80) scale(-1.7 1.7)" />
           <line x1="40" y1="256" x2="360" y2="256" stroke={ink} strokeWidth="2" className="stitch" />
         </g>
       )}
       {theme === "brush" && <BrushMark ink={ink} accent={accent} />}
       {theme === "plain" && (
         <g>
-          <path d={HORN_PATH} fill={ink} transform="translate(130 60) scale(1.8)" />
+          <HornPair cx={200} baseY={250} scale={1.5} fill={ink} />
           <line x1="40" y1="250" x2="360" y2="250" stroke={accent} strokeWidth="2" className="stitch" />
         </g>
       )}

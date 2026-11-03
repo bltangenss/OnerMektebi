@@ -1,4 +1,4 @@
-import { HORN_PATH } from "./horn-path";
+import { HornPair } from "./HornPair";
 
 type Props = {
   top: string;
@@ -11,9 +11,9 @@ type Props = {
 };
 
 /**
- * Шов между двумя полями, как в сырмаке: рог цвета нижнего поля
- * врезается в верхнее, а его зеркальная пара — в нижнее.
- * Это контрперемена: одна вырезанная форма, два цвета.
+ * Шов между двумя полями, как в сырмаке: пара рогов цвета нижнего поля
+ * врастает в верхнее, а её двойник цвета верхнего — в нижнее.
+ * Это контрперемена: один вырезанный узор, два цвета.
  */
 export function Seam({ top, bottom, thread = "var(--color-gold)", flip, className }: Props) {
   return (
@@ -26,10 +26,8 @@ export function Seam({ top, bottom, thread = "var(--color-gold)", flip, classNam
       >
         <rect x="0" y="0" width="1440" height="70" fill={top} />
         <rect x="0" y="70" width="1440" height="70" fill={bottom} />
-        {/* Рог нижнего цвета поднимается в верхнее поле */}
-        <path d={HORN_PATH} fill={bottom} transform="translate(438 6) scale(0.64)" />
-        {/* Его зеркальная пара опускается в нижнее поле */}
-        <path d={HORN_PATH} fill={top} transform="translate(1010 134) scale(-0.64)" />
+        <HornPair cx={470} baseY={70} scale={0.6} fill={bottom} />
+        <HornPair cx={985} baseY={70} scale={0.6} fill={top} hanging />
         <line
           x1="0"
           y1="70"
