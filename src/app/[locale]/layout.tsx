@@ -5,7 +5,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { getContactAction } from "@/lib/contact";
 import { isDemoMode } from "@/lib/content";
-import { getDictionary, htmlLang, isLocale, locales } from "@/lib/i18n";
+import { getDictionary, href, htmlLang, isLocale, locales } from "@/lib/i18n";
+import { isCmsConfigured } from "@/lib/supabase/env";
 import { siteUrl } from "@/lib/seo";
 import "../globals.css";
 
@@ -60,6 +61,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           dict={{ nav: dict.nav, ui: dict.ui, meta: dict.meta }}
           contactHref={contact.href}
           contactExternal={contact.external}
+          applyHref={isCmsConfigured() ? href(locale, "/apply") : undefined}
         />
         <main id="main" className="flex-1">
           {children}

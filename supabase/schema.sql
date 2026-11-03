@@ -160,6 +160,80 @@ create policy "admin updates media" on storage.objects
 create policy "admin deletes media" on storage.objects
   for delete to authenticated using (bucket_id = 'media' and public.is_admin());
 
+-- ───────────────────────── Заявки от родителей ─────────────────────────
+-- Посетители не видят и не могут читать заявки. Добавить заявку можно только
+-- через функцию submit_application, которая проверяет данные и ограничивает частоту.
+create table if not exists public.applications (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  kind text not null check (kind in ('enroll', 'question', 'other')),
+  parent_name text not null check (char_length(parent_name) between 2 and 80),
+  phone text not null check (phone ~ '^\+?[0-9]{10,15}$'),
+  contact_method text not null default 'whatsapp' check (contact_method in ('whatsapp', 'call')),
+  direction_slug text check (direction_slug is null or char_length(direction_slug) <= 40),
+  child_age int check (child_age is null or child_age between 3 and 18),
+  message text check (message is null or char_length(message) <= 1000),
+  locale text not null default 'kk' check (locale in ('kk', 'ru')),
+  status text not null default 'new' check (status in ('new', 'in_progress', 'done')),
+  admin_note text check (admin_note is null or char_length(admin_note) <= 2000),
+  ip_hash text
+);
+create index if not exists applications_created_idx on public.applications (created_at desc);
+create index if not exists applications_ip_idx on public.applications (ip_hash, created_at desc);
+
+alter table public.applications enable row level security;
+drop policy if exists "admin reads applications" on public.applications;
+drop policy if exists "admin updates applications" on public.applications;
+drop policy if exists "admin deletes applications" on public.applications;
+create policy "admin reads applications" on public.applications
+  for select to authenticated using (public.is_admin());
+create policy "admin updates applications" on public.applications
+  for update to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy "admin deletes applications" on public.applications
+  for delete to authenticated using (public.is_admin());
+
+create or replace function public.submit_application(
+  p_kind text,
+  p_parent_name text,
+  p_phone text,
+  p_contact_method text,
+  p_direction_slug text,
+  p_child_age int,
+  p_message text,
+  p_locale text,
+  p_ip_hash text
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare new_id uuid;
+begin
+  -- Не больше трёх заявок с одного адреса за 15 минут и тридцати за час со всего сайта.
+  if p_ip_hash is not null and (
+    select count(*) from public.applications
+    where ip_hash = p_ip_hash and created_at > now() - interval '15 minutes'
+  ) >= 3 then
+    raise exception 'rate_limited';
+  end if;
+  if (select count(*) from public.applications where created_at > now() - interval '1 hour') >= 30 then
+    raise exception 'rate_limited';
+  end if;
+
+  insert into public.applications
+    (kind, parent_name, phone, contact_method, direction_slug, child_age, message, locale, ip_hash)
+  values
+    (p_kind, trim(p_parent_name), p_phone, p_contact_method, nullif(p_direction_slug, ''),
+     p_child_age, nullif(trim(p_message), ''), p_locale, p_ip_hash)
+  returning id into new_id;
+  return new_id;
+end;
+$$;
+
+revoke all on function public.submit_application(text, text, text, text, text, int, text, text, text) from public;
+grant execute on function public.submit_application(text, text, text, text, text, int, text, text, text) to anon, authenticated;
+
 -- ───────────────────────── Стартовые направления ─────────────────────────
 -- Тексты те же, что в src/content/directions.ts. Педагоги не привязаны.
 insert into public.directions (slug, sort_order, theme, name, title, summary, sections, published) values

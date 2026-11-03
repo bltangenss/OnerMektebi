@@ -153,3 +153,30 @@ export async function saveSettings(_: FormState, form: FormData): Promise<FormSt
   refreshSite();
   redirect("/admin/settings?saved=1");
 }
+
+// ───────── Заявки ─────────
+
+const STATUSES = ["new", "in_progress", "done"] as const;
+
+export async function setApplicationStatus(id: string, status: string) {
+  const { supabase } = await requireAdmin();
+  if (!(STATUSES as readonly string[]).includes(status)) return;
+  const { error } = await supabase.from("applications").update({ status }).eq("id", id);
+  if (error) redirect("/admin/applications?error=save");
+  revalidatePath("/admin", "layout");
+}
+
+export async function saveApplicationNote(id: string, form: FormData) {
+  const { supabase } = await requireAdmin();
+  const note = String(form.get("note") ?? "").trim().slice(0, 2000);
+  const { error } = await supabase.from("applications").update({ admin_note: note || null }).eq("id", id);
+  if (error) redirect("/admin/applications?error=save");
+  revalidatePath("/admin", "layout");
+}
+
+export async function deleteApplication(id: string) {
+  const { supabase } = await requireAdmin();
+  const { error } = await supabase.from("applications").delete().eq("id", id);
+  if (error) redirect("/admin/applications?error=delete");
+  revalidatePath("/admin", "layout");
+}

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Camera, Clock, ExternalLink, MapPin, Phone } from "lucide-react";
+import { ArrowRight, Camera, Clock, ExternalLink, MapPin, Phone } from "lucide-react";
 import type { ReactNode } from "react";
 import { WhatsappPicker } from "@/components/contact/WhatsappPicker";
 import { PageHero } from "@/components/ui/PageHero";
 import { getDirections, getSettings } from "@/lib/content";
-import { format, getDictionary, isLocale, t } from "@/lib/i18n";
+import { format, getDictionary, href, isLocale, t } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
+import { isCmsConfigured } from "@/lib/supabase/env";
 import { telLink, whatsappLink } from "@/lib/whatsapp";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/contact">): Promise<Metadata> {
@@ -53,7 +55,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
     <>
       <PageHero title={dict.contact.title} lead={dict.contact.lead} tone="sand" />
 
-      <div className={`shell grid gap-14 py-14 md:py-20 lg:gap-20 ${hasAny ? "lg:grid-cols-[1fr_1fr]" : ""}`}>
+      <div className={`shell grid gap-14 py-14 md:py-20 lg:gap-20 ${hasAny || isCmsConfigured() ? "lg:grid-cols-[1fr_1fr]" : ""}`}>
         {hasAny ? (
           <dl className="divide-y divide-line border-y border-line">
             {address && (
@@ -96,6 +98,18 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
         )}
 
         <div className="space-y-10">
+          {isCmsConfigured() && (
+            <section aria-labelledby="apply-title" className="on-dark rounded-felt bg-wine p-6 text-milk md:p-8">
+              <h2 id="apply-title" className="display text-[2.6rem]">
+                {dict.apply.title}
+              </h2>
+              <p className="mt-3 text-muted-on-dark">{dict.apply.lead}</p>
+              <Link href={href(locale, "/apply")} className="btn btn-gold mt-6">
+                {dict.ui.applyCta}
+                <ArrowRight className="size-5" aria-hidden />
+              </Link>
+            </section>
+          )}
           {hasWhatsapp && phone && (
             <section aria-labelledby="wa-title" className="rounded-felt bg-sand p-6 md:p-8">
               <h2 id="wa-title" className="display text-[2.6rem]">

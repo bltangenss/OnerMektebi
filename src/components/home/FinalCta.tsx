@@ -7,11 +7,13 @@ type Props = {
   text: string;
   button: string;
   action: ContactAction;
+  /** Вторая кнопка — онлайн-заявка, если она подключена. */
+  apply?: { href: string; label: string };
   /** Цвет поля над блоком, чтобы шов совпал. */
   above?: string;
 };
 
-export function FinalCta({ heading, text, button, action, above = "var(--color-milk)" }: Props) {
+export function FinalCta({ heading, text, button, action, apply, above = "var(--color-milk)" }: Props) {
   return (
     <section aria-labelledby="cta-title" className="on-dark relative bg-wine text-milk">
       <Seam top={above} bottom="var(--color-wine)" />
@@ -20,15 +22,22 @@ export function FinalCta({ heading, text, button, action, above = "var(--color-m
           {heading}
         </h2>
         <p className="mt-6 max-w-xl text-lg text-muted-on-dark md:text-xl">{text}</p>
-        <a
-          href={action.href}
-          {...(action.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          className="btn btn-gold mt-10"
-        >
-          {action.isWhatsapp && <MessageCircle className="size-5" aria-hidden />}
-          {button}
-          <ArrowRight className="size-5" aria-hidden />
-        </a>
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={action.href}
+            {...(action.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className="btn btn-gold"
+          >
+            {action.isWhatsapp && <MessageCircle className="size-5" aria-hidden />}
+            {button}
+            <ArrowRight className="size-5" aria-hidden />
+          </a>
+          {apply && (
+            <a href={apply.href} className="btn btn-outline">
+              {apply.label}
+            </a>
+          )}
+        </div>
       </div>
     </section>
   );

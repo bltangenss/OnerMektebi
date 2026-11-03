@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Settings } from "lucide-react";
+import { ArrowRight, Inbox, Settings } from "lucide-react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { requireAdmin } from "@/lib/admin/auth";
 import { entities } from "@/lib/admin/entities";
@@ -32,8 +32,26 @@ export default async function AdminHome() {
     }),
   );
 
+  const { count: newApplications } = await supabase
+    .from("applications")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "new");
+
   return (
     <AdminShell email={email} title="Что будем обновлять?">
+      <Link
+        href="/admin/applications"
+        className="on-dark group mb-6 flex items-center gap-4 rounded-felt bg-wine p-6 text-milk no-underline hover:bg-wine-deep"
+      >
+        <Inbox className="size-8 shrink-0 text-gold" aria-hidden />
+        <span className="flex-1">
+          <span className="block text-xl font-semibold">Заявки от родителей</span>
+          <span className="text-muted-on-dark">
+            {newApplications ? `Новых заявок: ${newApplications}` : "Новых заявок нет"}
+          </span>
+        </span>
+        <ArrowRight className="size-6 transition-transform group-hover:translate-x-1" aria-hidden />
+      </Link>
       <ul className="grid gap-4 sm:grid-cols-2">
         {entities.map((e, i) => (
           <li key={e.key}>

@@ -9,6 +9,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { getContactAction } from "@/lib/contact";
 import { getAchievements, getDirections, getHistory, getTeachers } from "@/lib/content";
 import { getDictionary, href, isLocale, t } from "@/lib/i18n";
+import { isCmsConfigured } from "@/lib/supabase/env";
 import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/about">): Promise<Metadata> {
@@ -130,6 +131,7 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         text={dict.finalCta.text}
         button={dict.finalCta.button}
         action={contact}
+        apply={isCmsConfigured() ? { href: href(locale, "/apply"), label: dict.ui.applyCta } : undefined}
       />
     </>
   );

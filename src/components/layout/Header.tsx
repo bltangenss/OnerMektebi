@@ -13,6 +13,8 @@ type Props = {
   dict: Pick<Dictionary, "nav" | "ui" | "meta">;
   contactHref: string;
   contactExternal: boolean;
+  /** Страница заявки, если онлайн-заявки подключены. */
+  applyHref?: string;
 };
 
 const NAV = ["about", "directions", "talents", "events", "contact"] as const;
@@ -24,7 +26,7 @@ const PATHS: Record<(typeof NAV)[number], string> = {
   contact: "/contact",
 };
 
-export function Header({ locale, dict, contactHref, contactExternal }: Props) {
+export function Header({ locale, dict, contactHref, contactExternal, applyHref }: Props) {
   const pathname = usePathname() ?? `/${locale}`;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -183,6 +185,11 @@ export function Header({ locale, dict, contactHref, contactExternal }: Props) {
           <a href={contactHref} {...contactProps} className="btn btn-primary mt-8 w-full">
             {dict.ui.contactCta}
           </a>
+          {applyHref && (
+            <Link href={applyHref} className="btn btn-outline mt-3 w-full text-wine">
+              {dict.ui.applyCta}
+            </Link>
+          )}
         </nav>
       </div>
     </header>

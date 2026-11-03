@@ -18,6 +18,7 @@ import { getContactAction } from "@/lib/contact";
 import { getDirections, getEventGroups, getSettings, getTeachers, getWorks } from "@/lib/content";
 import { galleryLabels, toGalleryWorks } from "@/lib/gallery";
 import { getDictionary, href, isLocale, t } from "@/lib/i18n";
+import { isCmsConfigured } from "@/lib/supabase/env";
 import { pageMetadata, siteUrl } from "@/lib/seo";
 
 // Деление событий на предстоящие и прошедшие пересчитывается раз в час.
@@ -225,6 +226,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         text={dict.finalCta.text}
         button={dict.finalCta.button}
         action={contact}
+        apply={isCmsConfigured() ? { href: href(locale, "/apply"), label: dict.ui.applyCta } : undefined}
         above="var(--color-sand)"
       />
     </>

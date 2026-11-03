@@ -12,6 +12,7 @@ import { getDirection, getDirections, getTeachers, getWorks } from "@/lib/conten
 import { galleryLabels, toGalleryWorks } from "@/lib/gallery";
 import { getDictionary, href, isLocale, locales, t } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
+import { isCmsConfigured } from "@/lib/supabase/env";
 import type { Direction } from "@/types/content";
 
 type Props = PageProps<"/[locale]/directions/[slug]">;
@@ -119,9 +120,20 @@ export default async function DirectionPage({ params }: Props) {
             </h2>
             <p className="mt-4 max-w-xl text-lg text-muted-on-dark">{dict.directions.joinText}</p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+          <div className="flex flex-col flex-wrap gap-3 sm:flex-row lg:justify-end">
+            {isCmsConfigured() && (
+              <Link href={`${href(locale, "/apply")}?type=enroll&direction=${slug}`} className="btn btn-gold">
+                {dict.ui.applyCta}
+                <ArrowRight className="size-5" aria-hidden />
+              </Link>
+            )}
             {contact.isWhatsapp && (
-              <a href={contact.href} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
+              <a
+                href={contact.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`btn ${isCmsConfigured() ? "btn-outline" : "btn-gold"}`}
+              >
                 <MessageCircle className="size-5" aria-hidden />
                 {dict.directions.joinWhatsapp}
               </a>
