@@ -34,7 +34,8 @@ export function pageMetadata({ locale, path, title, description, image, noIndex 
       url: `/${locale}${suffix}`,
       locale: locale === "kk" ? "kk_KZ" : "ru_RU",
       alternateLocale: locale === "kk" ? ["ru_RU"] : ["kk_KZ"],
-      ...(image ? { images: [{ url: image }] } : {}),
+      // Без своей картинки страница берёт общее превью языковой версии.
+      images: [image ? { url: image } : { url: `/${locale}/opengraph-image`, width: 1200, height: 630 }],
     },
     twitter: { card: "summary_large_image", title: fullTitle, description },
     ...(noIndex ? { robots: { index: false, follow: true } } : {}),

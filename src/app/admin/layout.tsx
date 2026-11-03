@@ -10,6 +10,9 @@ const fira = Fira_Sans_Extra_Condensed({
   display: "swap",
 });
 
+// Админка всегда читает свежие данные и сессию, ничего не кешируется при сборке.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Админ-панель — Өнер мектебі",
   robots: { index: false, follow: false },

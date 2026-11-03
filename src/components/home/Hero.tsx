@@ -43,10 +43,10 @@ export function Hero({ locale, dict, directions }: Props) {
       <div aria-hidden className="absolute inset-y-0 right-0 hidden bg-wine lg:block" style={{ left: `${SPLIT}%` }} />
 
       <div className="shell relative grid lg:grid-cols-[58fr_42fr]">
-        <div className="pt-8 pb-8 sm:pt-12 lg:pt-14 lg:pr-10 lg:pb-4">
+        <div className="pt-8 pb-8 sm:pt-12 lg:pt-10 lg:pr-10 lg:pb-4">
           <h1
             id="hero-title"
-            className="display text-[clamp(4.6rem,22vw,7.5rem)] text-wine lg:text-[clamp(5.5rem,9.2vw,9.75rem)]"
+            className="display text-[clamp(4.6rem,22vw,7.5rem)] text-wine lg:text-[clamp(4.5rem,7.4vw,8.75rem)]"
           >
             {dict.hero.titleLines.map((word, i) => (
               <span key={word} className="line-in mr-[0.18em]">
@@ -93,7 +93,7 @@ export function Hero({ locale, dict, directions }: Props) {
       <div className="relative">
         <div aria-hidden className="absolute inset-0 lg:hidden" style={{ background: `linear-gradient(90deg, var(--color-milk) ${SPLIT}%, var(--color-wine) ${SPLIT}%)` }} />
         <DombraBand viewBox={MOBILE_VB} className="lg:hidden" />
-        <DombraBand viewBox={DESKTOP_VB} className="hidden lg:block" />
+        <DombraBand viewBox={DESKTOP_VB} className="hidden lg:-mt-8 lg:block" />
         <p className="absolute bottom-2 left-4 text-xs text-muted md:left-8 lg:bottom-4">{dict.hero.stringsHint}</p>
       </div>
     </section>

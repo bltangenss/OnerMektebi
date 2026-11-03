@@ -15,10 +15,10 @@ import { TeacherCard } from "@/components/teachers/TeacherCard";
 import { EmptyFrames } from "@/components/ui/EmptyFrames";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { getContactAction } from "@/lib/contact";
-import { getDirections, getEventGroups, getTeachers, getWorks } from "@/lib/content";
+import { getDirections, getEventGroups, getSettings, getTeachers, getWorks } from "@/lib/content";
 import { galleryLabels, toGalleryWorks } from "@/lib/gallery";
 import { getDictionary, href, isLocale, t } from "@/lib/i18n";
-import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, siteUrl } from "@/lib/seo";
 
 // Деление событий на предстоящие и прошедшие пересчитывается раз в час.
 export const revalidate = 3600;
@@ -34,13 +34,32 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDictionary(locale);
-  const [directions, works, events, teachers, contact] = await Promise.all([
+  const [directions, works, events, teachers, contact, settings] = await Promise.all([
     getDirections(),
     getWorks(),
     getEventGroups(),
     getTeachers(),
     getContactAction(locale),
+    getSettings(),
   ]);
+
+  // Только подтверждённые сведения: название, город и то, что заполнено в контактах.
+  const address = t(settings.address, locale);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "School",
+    name: dict.meta.siteName,
+    description: dict.meta.homeDescription,
+    url: `${siteUrl}/${locale}`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: dict.meta.city,
+      addressCountry: "KZ",
+      ...(address ? { streetAddress: address } : {}),
+    },
+    ...(settings.phone ? { telephone: settings.phone } : {}),
+    ...(settings.instagram ? { sameAs: [settings.instagram] } : {}),
+  };
 
   const visualWorks = toGalleryWorks(works.filter((w) => w.kind !== "audio").slice(0, 6), directions, locale);
   const audioWorks = works.filter((w) => w.kind === "audio" && w.mediaUrl).slice(0, 3);
@@ -63,6 +82,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Hero locale={locale} dict={dict} directions={directions} />
 
       <section aria-labelledby="about-title" className="shell grid items-center gap-10 py-24 md:py-32 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
