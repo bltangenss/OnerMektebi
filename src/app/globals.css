@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+@theme {
+  --color-milk: #f8f6f1;
+  --color-linen: #f1eee8;
+  --color-sand: #ede6da;
+  --color-sand-deep: #e2d7c5;
+  --color-ink: #242424;
+  --color-ink-soft: #3a3735;
+  --color-muted: #5e5852;
+  --color-wine: #6b3042;
+  --color-wine-deep: #4f2231;
+  --color-wine-soft: #e8d6da;
+  --color-gold: #c49a60;
+  --color-gold-deep: #9a7239;
+  --color-line: rgb(36 36 36 / 0.14);
+
+  --font-sans: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sofia), var(--font-onest), ui-sans-serif, sans-serif;
+
+  --radius-felt: 6px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-soft: 0 10px 30px -12px rgb(79 34 49 / 0.25), 0 2px 6px -2px rgb(36 36 36 / 0.08);
+}
+
+@layer base {
+  :root {
+    --focus: var(--color-wine);
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-color: var(--color-wine) var(--color-sand);
+  }
+
+  body {
+    background: var(--color-milk);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-wine);
+    color: var(--color-milk);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+
+  input,
+  select,
+  textarea {
+    caret-color: var(--color-wine);
+  }
+
+  .on-dark {
+    --focus: var(--color-gold);
+  }
+
+  .on-dark ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 82rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 750;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+  }
+
+  .measure {
+    max-width: 66ch;
+  }
+
+  /* Шов войлока: пунктирная строчка */
+  .stitch {
+    stroke-dasharray: 7 6;
+    stroke-linecap: round;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-felt);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      background-color 0.25s var(--ease-out-expo),
+      color 0.25s var(--ease-out-expo),
+      border-color 0.25s var(--ease-out-expo),
+      transform 0.25s var(--ease-out-expo),
+      box-shadow 0.25s var(--ease-out-expo);
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn svg {
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+
+  .btn-primary {
+    background: var(--color-wine);
+    color: var(--color-milk);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-wine-deep);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-gold {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  .btn-gold:hover {
+    background: #d3ad78;
+    box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.45);
+  }
+
+  .btn-outline {
+    border: 1.5px solid currentColor;
+    color: inherit;
+  }
+
+  .btn-outline:hover {
+    background: rgb(36 36 36 / 0.06);
+  }
+
+  .on-dark .btn-outline:hover {
+    background: rgb(248 246 241 / 0.12);
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.25s;
+  }
+
+  .link-arrow:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .link-arrow svg {
+    transition: transform 0.35s var(--ease-out-expo);
+  }
+
+  .link-arrow:hover svg,
+  .group:hover .link-arrow svg {
+    transform: translateX(4px);
+  }
+}
+
+@layer utilities {
+  .text-muted-on-dark {
+    color: #e6d3d8;
+  }
+}
+
+/* Появление при прокрутке. Без поддержки браузером контент просто виден. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rise {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    .sew {
+      animation: sew linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sew {
+  from {
+    stroke-dashoffset: 260;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Первый экран: строки заголовка поднимаются из-под маски по очереди */
+@media (prefers-reduced-motion: no-preference) {
+  .line-in > span {
+    display: inline-block;
+    animation: line-in 1s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 80ms);
+  }
+
+  .fade-in {
+    animation: fade-in 0.9s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+}
+
+.line-in {
+  display: inline-block;
+  vertical-align: top;
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  padding-bottom: 0.04em;
+}
+
+@keyframes line-in {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Нативный <dialog> для просмотра работ */
+dialog.viewer {
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+dialog.viewer::backdrop {
+  background: rgb(26 22 22 / 0.92);
+}
+
+dialog.viewer.exhibition::backdrop {
+  background: #ebe4d8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog.viewer[open] {
+    animation: fade-in 0.35s var(--ease-out-expo);
+  }
+}
+
+input[type="range"].range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"].range::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--track-fill, var(--color-gold)) var(--value, 0%),
+    var(--track-rest, rgb(36 36 36 / 0.2)) var(--value, 0%)
+  );
+}
+
+input[type="range"].range::-moz-range-track {
+  height: 2px;
+  background: var(--track-rest, rgb(36 36 36 / 0.2));
+}
+
+input[type="range"].range::-moz-range-progress {
+  height: 2px;
+  background: var(--track-fill, var(--color-gold));
+}
+
+input[type="range"].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--track-fill, var(--color-gold));
+  border: 2px solid var(--color-milk);
+}
+
+input[type="range"].range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--track-fill, var(--color-gold));
+  border: 2px solid var(--color-milk);
+}
+
+/* Струны натягиваются слева направо при загрузке */
+@media (prefers-reduced-motion: no-preference) {
+  .string-draw {
+    stroke-dasharray: 1;
+    animation: string-draw 1.2s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 120ms + 350ms);
+  }
+}
+
+@keyframes string-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Мазок кисти на странице рисования */
+@media (prefers-reduced-motion: no-preference) {
+  .brush-draw {
+    stroke-dasharray: 1;
+    animation: string-draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+  }
+}
