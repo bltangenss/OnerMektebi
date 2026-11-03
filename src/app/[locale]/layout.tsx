@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Onest, Sofia_Sans_Extra_Condensed } from "next/font/google";
+import { Fira_Sans_Extra_Condensed, Onest } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { getContactAction } from "@/lib/contact";
@@ -15,10 +15,10 @@ const onest = Onest({
   display: "swap",
 });
 
-const sofia = Sofia_Sans_Extra_Condensed({
+const fira = Fira_Sans_Extra_Condensed({
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
-  weight: ["600", "700", "800"],
-  variable: "--font-sofia",
+  weight: ["700"],
+  variable: "--font-fira",
   display: "swap",
 });
 
@@ -44,7 +44,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const contact = await getContactAction(locale);
 
   return (
-    <html lang={htmlLang[locale]} className={`${onest.variable} ${sofia.variable}`}>
+    <html lang={htmlLang[locale]} className={`${onest.variable} ${fira.variable}`}>
       <body className="flex min-h-svh flex-col">
         <a
           href="#main"

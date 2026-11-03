@@ -50,6 +50,9 @@ export function Header({ locale, dict, contactHref, contactExternal }: Props) {
     if (!open) return;
     const panel = panelRef.current;
     const toggle = toggleRef.current;
+    // Панель начинается ровно под шапкой, даже если над ней есть плашка.
+    const header = toggle?.closest("header");
+    if (panel && header) panel.style.top = `${header.getBoundingClientRect().bottom}px`;
     document.body.style.overflow = "hidden";
     panel?.querySelector<HTMLElement>("a, button")?.focus();
     const onKey = (e: KeyboardEvent) => {
@@ -85,9 +88,11 @@ export function Header({ locale, dict, contactHref, contactExternal }: Props) {
   return (
     <header
       className={`sticky top-0 z-40 transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
-        scrolled || open
-          ? "bg-milk/88 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md"
-          : "bg-milk"
+        open
+          ? "bg-milk shadow-[0_1px_0_var(--color-line)]"
+          : scrolled
+            ? "bg-milk/88 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md"
+            : "bg-milk"
       }`}
     >
       <div className="shell flex h-16 items-center gap-4 lg:h-20">
@@ -155,7 +160,7 @@ export function Header({ locale, dict, contactHref, contactExternal }: Props) {
         id="mobile-menu"
         ref={panelRef}
         hidden={!open}
-        className="fixed inset-x-0 top-16 bottom-0 overflow-y-auto bg-milk lg:hidden"
+        className="fixed inset-x-0 top-16 bottom-0 overflow-y-auto overscroll-contain bg-milk lg:hidden"
       >
         <nav aria-label={dict.ui.mainNav} className="shell flex min-h-full flex-col pt-6 pb-10">
           <ul className="flex flex-col">

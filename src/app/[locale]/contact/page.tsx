@@ -53,7 +53,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
     <>
       <PageHero title={dict.contact.title} lead={dict.contact.lead} tone="sand" />
 
-      <div className="shell grid gap-14 py-14 md:py-20 lg:grid-cols-[1fr_1fr] lg:gap-20">
+      <div className={`shell grid gap-14 py-14 md:py-20 lg:gap-20 ${hasAny ? "lg:grid-cols-[1fr_1fr]" : ""}`}>
         {hasAny ? (
           <dl className="divide-y divide-line border-y border-line">
             {address && (
@@ -89,7 +89,7 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
             )}
           </dl>
         ) : (
-          <div className="rounded-felt border-[1.5px] border-dashed border-wine/30 p-8 md:p-10">
+          <div className="max-w-3xl rounded-felt border-[1.5px] border-dashed border-wine/30 p-8 md:p-10">
             <p className="display text-[2.4rem] text-wine">{dict.meta.city}</p>
             <p className="measure mt-3 text-lg text-muted">{dict.contact.pending}</p>
           </div>

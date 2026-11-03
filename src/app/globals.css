@@ -16,7 +16,7 @@
   --color-line: rgb(36 36 36 / 0.14);
 
   --font-sans: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-sofia), var(--font-onest), ui-sans-serif, sans-serif;
+  --font-display: var(--font-fira), var(--font-onest), ui-sans-serif, sans-serif;
 
   --radius-felt: 6px;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -116,7 +116,7 @@
 
   .display {
     font-family: var(--font-display);
-    font-weight: 750;
+    font-weight: 700;
     line-height: 0.9;
     letter-spacing: -0.01em;
   }

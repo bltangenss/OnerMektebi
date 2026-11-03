@@ -11,6 +11,8 @@ export default function NotFound() {
   const dict = locale === "ru" ? ru : kk;
   return (
     <section className="shell flex min-h-[60vh] flex-col justify-center py-24">
+      <title>{`${dict.notFound.title} — ${dict.meta.siteName}`}</title>
+      <meta name="robots" content="noindex" />
       <p className="display text-[clamp(7rem,30vw,16rem)] leading-[0.8] text-wine" aria-hidden>
         404
       </p>
