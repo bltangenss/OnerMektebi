@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T12:00:00+05:00",
+  "title": "Design System: Өнер мектебі",
+  "extensions": {
+    "colorMeta": {
+      "wine": { "role": "primary", "displayName": "Бордовый войлок", "canonical": "#6b3042", "tonalRamp": ["#2a1219", "#3d1a25", "#4f2231", "#6b3042", "#8a4d60", "#b07f8e", "#d6b6c0", "#f1e4e8"] },
+      "gold": { "role": "secondary", "displayName": "Струна", "canonical": "#c49a60", "tonalRamp": ["#3d2d16", "#5e4522", "#7d5e30", "#9a7239", "#c49a60", "#d6b789", "#e7d4b4", "#f6eedf"] },
+      "milk": { "role": "neutral", "displayName": "Молочный", "canonical": "#f8f6f1" },
+      "sand": { "role": "neutral", "displayName": "Песок", "canonical": "#ede6da" },
+      "ink": { "role": "neutral", "displayName": "Графит", "canonical": "#242424" }
+    },
+    "typographyMeta": {
+      "hero": { "displayName": "Hero", "purpose": "Только заголовок первого экрана главной." },
+      "display": { "displayName": "Display", "purpose": "Заголовки секций и страниц." },
+      "body": { "displayName": "Body", "purpose": "Текст, интерфейс, кнопки." }
+    },
+    "shadows": [
+      { "name": "soft", "value": "0 10px 30px -12px rgb(79 34 49 / 0.25), 0 2px 6px -2px rgb(36 36 36 / 0.08)", "purpose": "Наведение на карточки и кнопки." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Появление строк заголовка, наведение, переходы." },
+      { "name": "string-pluck", "value": "6.5 Hz, затухание 0.55 s", "purpose": "Колебание струн домбры." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Главное действие на светлом поле.",
+      "html": "<button class=\"ds-btn-primary\">Өнер бағыттары <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14M12 5l7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:.6rem;min-height:52px;padding:14px 24px;border:0;border-radius:6px;background:#6b3042;color:#f8f6f1;font:600 16px/1.2 Onest,system-ui,sans-serif;cursor:pointer;transition:background .25s cubic-bezier(.16,1,.3,1),box-shadow .25s}.ds-btn-primary:hover{background:#4f2231;box-shadow:0 10px 30px -12px rgb(79 34 49/.25)}.ds-btn-primary:focus-visible{outline:2px solid #6b3042;outline-offset:3px}"
+    },
+    {
+      "name": "Gold Button",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "Главное действие на бордовом поле.",
+      "html": "<div style=\"background:#6b3042;padding:24px\"><button class=\"ds-btn-gold\">Бізбен байланысу</button></div>",
+      "css": ".ds-btn-gold{min-height:52px;padding:14px 24px;border:0;border-radius:6px;background:#c49a60;color:#242424;font:600 16px/1.2 Onest,system-ui,sans-serif;cursor:pointer;transition:background .25s}.ds-btn-gold:hover{background:#d3ad78}.ds-btn-gold:focus-visible{outline:2px solid #c49a60;outline-offset:3px}"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-filter-active",
+      "description": "Фильтр галереи со счётчиком.",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"true\">Сурет <span>4</span></button> <button class=\"ds-chip\">Күй <span>1</span></button>",
+      "css": ".ds-chip{min-height:44px;padding:0 20px;border:1px solid rgb(36 36 36/.14);border-radius:9999px;background:transparent;color:#242424;font:500 15px Onest,system-ui,sans-serif;cursor:pointer}.ds-chip span{margin-left:8px;opacity:.7}.ds-chip:hover{border-color:#6b3042;color:#6b3042}.ds-chip[aria-pressed=true]{background:#6b3042;border-color:#6b3042;color:#f8f6f1}"
+    },
+    {
+      "name": "Seam",
+      "kind": "custom",
+      "description": "Шов между полями: пара рогов в контрперемене и золотая строчка.",
+      "html": "<svg class=\"ds-seam\" viewBox=\"0 0 600 80\"><rect width=\"600\" height=\"40\" fill=\"#f8f6f1\"/><rect y=\"40\" width=\"600\" height=\"40\" fill=\"#6b3042\"/><line x1=\"0\" y1=\"40\" x2=\"600\" y2=\"40\" stroke=\"#c49a60\" stroke-width=\"1.5\" stroke-dasharray=\"7 6\"/></svg>",
+      "css": ".ds-seam{display:block;width:100%;height:auto}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Сырмақ",
+    "overview": "Сайт скроен как войлочный ковёр: узор вырезан из двух войлоков и поменян местами, поля разделены швом. Две струны домбры — живой жест первого экрана.",
+    "keyCharacteristics": ["Цвет полями", "Узкий плакатный гротеск", "Шов-строчка", "Авторская графика вместо отсутствующих фото"],
+    "rules": [
+      { "name": "Правило контрперемены", "body": "Узор на шве всегда в двух цветах соседних полей.", "section": "colors" },
+      { "name": "Золото для линий", "body": "Золотой — цвет струн и стежков, не текста на светлом.", "section": "colors" },
+      { "name": "Без надзаголовков", "body": "Заголовок говорит сам, без мелких меток над ним.", "section": "typography" }
+    ],
+    "dos": ["Ставить узор только на границе полей", "Заменять иллюстрации настоящими фото школы", "Проверять шрифты на казахских заглавных"],
+    "donts": ["Золотые градиенты и мелкий орнамент", "Надзаголовки", "Имитация воспроизведения без файла", "Золотой текст на светлом фоне"]
+  }
+}
