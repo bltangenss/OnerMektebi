@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Eye, EyeOff, Pencil, Plus, Trash2 } from "lucide-react";
+import { Eye, EyeOff, Pencil, Plus, Printer, Trash2 } from "lucide-react";
 import { ConfirmButton } from "@/components/admin/ConfirmButton";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { requireAdmin } from "@/lib/admin/auth";
@@ -88,6 +88,17 @@ export default async function EntityList({ params, searchParams }: PageProps<"/a
                     <Pencil className="size-4" aria-hidden />
                     Изменить
                   </Link>
+                  {key === "events" && published && (
+                    <a
+                      href={`/kk/events/${String(r.slug)}/poster`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center gap-1 rounded-felt border border-line px-3 text-sm text-ink no-underline hover:border-wine"
+                    >
+                      <Printer className="size-4" aria-hidden />
+                      Афиша с QR
+                    </a>
+                  )}
                   <form action={setPublished.bind(null, key, id, !published)}>
                     <button type="submit" className="inline-flex min-h-11 items-center gap-1 rounded-felt border border-line px-3 text-sm hover:border-wine">
                       {published ? <EyeOff className="size-4" aria-hidden /> : <Eye className="size-4" aria-hidden />}

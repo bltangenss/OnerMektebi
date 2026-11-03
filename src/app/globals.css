@@ -401,3 +401,24 @@ input[type="range"].range::-moz-range-thumb {
     animation: string-draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
   }
 }
+
+/* Печать афиши: только лист, без шапки и подвала сайта */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body:has(.poster-page) > :not(main),
+  body:has(.poster-page) .no-print {
+    display: none !important;
+  }
+
+  .poster-sheet {
+    width: 210mm;
+    height: 297mm;
+    max-width: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

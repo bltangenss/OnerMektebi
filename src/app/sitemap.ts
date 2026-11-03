@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/talents",
     "/events",
     "/contact",
+    "/apply",
     ...directions.map((d) => `/directions/${d.slug}`),
     ...events.filter((e) => !e.isDemo).map((e) => `/events/${e.slug}`),
   ];

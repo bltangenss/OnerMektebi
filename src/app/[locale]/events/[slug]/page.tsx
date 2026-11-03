@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, Clock, MapPin, MessageCircle } from "lucide-react";
+import { ArrowLeft, CalendarDays, CalendarPlus, Clock, MapPin, MessageCircle, Printer, Share2 } from "lucide-react";
 import { Seam } from "@/components/art/Seam";
 import { CopyLink } from "@/components/events/CopyLink";
 import { Gallery } from "@/components/gallery/Gallery";
@@ -161,7 +161,26 @@ export default async function EventPage({ params }: Props) {
                 {dict.events.organizers}
               </Link>
             )}
+            {!past && (
+              <a href={`${href(locale, `/events/${slug}`)}/calendar`} download className="btn btn-outline text-wine">
+                <CalendarPlus className="size-5" aria-hidden />
+                {dict.events.addToCalendar}
+              </a>
+            )}
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent(`${title} — ${formatDate(event.startsAt, locale)}\n${siteUrl}/${locale}/events/${slug}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline text-wine"
+            >
+              <Share2 className="size-5" aria-hidden />
+              {dict.events.shareWhatsapp}
+            </a>
             <CopyLink label={dict.events.share} copiedLabel={dict.events.copied} />
+            <Link href={`${href(locale, `/events/${slug}`)}/poster`} className="inline-flex min-h-11 items-center justify-center gap-2 text-sm text-muted hover:text-wine">
+              <Printer className="size-4" aria-hidden />
+              {dict.events.poster}
+            </Link>
           </div>
         </aside>
       </div>
