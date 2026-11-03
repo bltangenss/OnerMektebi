@@ -20,6 +20,9 @@ import { galleryLabels, toGalleryWorks } from "@/lib/gallery";
 import { getDictionary, href, isLocale, t } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 
+// Деление событий на предстоящие и прошедшие пересчитывается раз в час.
+export const revalidate = 3600;
+
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
